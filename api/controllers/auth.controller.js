@@ -2,40 +2,66 @@ import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 
 import User from "../models/User.model.js";
+import generateToken from "../utils/generate.token.js";
 
-export const signup = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { username, email, password } = req.body;
+const signin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
   // Validations
-  if (!username)
-    return res.status(400).json("Username is required.");
-  if (!email)
-    return res.status(400).json("Email is required.");
-  if (!password)
-    return res.status(400).json("Password is required.");
+  if (!email) {
+    res.status(400);
+    throw Error("Email is required.");
+  }
+  if (!password) {
+    res.status(400);
+    throw Error("Password is required.");
+  }
 
-  const usernameExists = await User.findOne({ username });
-  if (usernameExists)
-    return res.status(400).json("Username is already taken.");
+  const user = await User.findOne({ email });
+
+  if (user && (await user.validatePassword(password))) {
+    generateToken(res, user._id);
+    res.status(200).json({
+      message: "User credentials are correct.",
+    });
+  } 
+  else {
+    res.status(401);
+    throw new Error("Invalid email or password.");
+  }
+  
+});
+
+const signup = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validations
+  if (!email) {
+    res.status(400);
+    throw Error("Email is required.");
+  }
+  if (!password) {
+    res.status(400);
+    throw Error("Password is required.");
+  }
 
   const emailExists = await User.findOne({ email });
-  if (emailExists)
-    return res.status(400).json("Email is already taken.");
+  if (emailExists) {
+    res.status(400);
+    throw Error("Email is already taken.");
+  }
 
   const salt = await bcrypt.genSalt(10);
 
   const newUser = await User.create({
-    username,
     email,
     password: await bcrypt.hash(password, salt),
   });
 
   if (newUser) {
+    generateToken(res, newUser._id);
     res.status(201).json({
       message: "User created successfully.",  
-      username: newUser.username,
-      email: newUser.email,
     });
   } 
   else {
@@ -43,3 +69,16 @@ export const signup = asyncHandler(async (req, res) => {
     throw new Error("Something went wrong.");
   }
 });
+
+const signout = asyncHandler(async (req, res) => {
+  res.clearCookie("jwt");
+  res.status(200).json({
+    message: "User signed out successfully.",
+  });
+});
+
+export { 
+  signin,
+  signup,
+  signout 
+}

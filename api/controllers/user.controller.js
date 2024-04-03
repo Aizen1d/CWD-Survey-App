@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 
 const index = asyncHandler(async (req, res) => {
   const users = await User.find({});
-  res.json(users);
+  res.status(200).json(users);
 });
 
 export { index };
