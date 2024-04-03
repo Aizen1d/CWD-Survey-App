@@ -1,11 +1,12 @@
 import User from "../models/User.model.js";
+import asyncHandler from "express-async-handler";
 
-export const index = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } 
-  catch (error) {
-    console.error(error);
-  }
-};
+const index = asyncHandler(async (req, res) => {
+  res.status(401);
+  throw new Error("Not Authorized");
+
+  const users = await User.find({});
+  res.json(users);
+});
+
+export { index };

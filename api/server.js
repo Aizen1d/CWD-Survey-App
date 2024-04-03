@@ -2,11 +2,14 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
-dotenv.config({ path: './config.env'});
+dotenv.config({ path: './.env'});
 
 // Routes
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
+
+// Middlewares
+import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 
 // Connecting to MongoDB
 mongoose
@@ -25,8 +28,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
 app.use(`${apiPrefix}/auth`, auth);
 app.use(`${apiPrefix}/users`, users);
+
+// Middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 // start the Express server
 const PORT = process.env.PORT;
