@@ -1,19 +1,27 @@
-import user from "../models/user.js";
+import User from "../models/User.model.js";
 
 export const signup = async (req, res) => {
+  console.log(req.body);
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: "Please enter all fields" });
-  }
+  if (!username)
+    return res.status(400).json("Username is required!");
+  if (!email)
+    return res.status(400).json("Email is required!");
+  if (!password)
+    return res.status(400).json("Password is required!");
 
-  const newUser = new user({
+  const newUser = new User({
     username,
     email,
     password,
   });
 
-  newUser.save()
-    .then(() => res.json("User added!"))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  try {
+    await newUser.save();
+    res.status(201).json({ message: 'User created successfully' });
+  } 
+  catch (error) {
+    console.error(error);
+  }
 };
