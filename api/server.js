@@ -8,7 +8,7 @@ dotenv.config({ path: './config.env'});
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
 
-// Conneciing to MongoDB
+// Connecting to MongoDB
 mongoose
   .connect(process.env.ATLAS_URI)
   .then(() => {
@@ -23,6 +23,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(`${apiPrefix}/auth`, auth);
 app.use(`${apiPrefix}/users`, users);
