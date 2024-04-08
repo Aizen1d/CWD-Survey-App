@@ -18,16 +18,20 @@ const FadeLoop = ({ items }) => {
 
   return (
     <div className={`transition-opacity ease-in duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
-      <img className='w-[500px]' 
+      <img className='w-full min-h-[538px]' 
         src={items[index].img} 
         alt="" 
       />
-      <p className='w-[538px] font-[outfit] font-[700] text-[50px] text-white text-center leading-[40px]'>
-        {items[index].maintext}
-      </p>
-      <p className='w-[480px] mt-5 font-[roboto] font-[400] text-[20px] text-white text-center leading-[27px]'>
-        {items[index].subtext}
-      </p>
+      <div className="flex justify-center items-center">
+        <p className='w-[538px] font-[outfit] font-[700] text-[50px] text-white text-center leading-[40px]'>
+          {items[index].maintext}
+        </p>
+      </div>
+      <div className="flex justify-center items-center">
+        <p className='w-[480px] mt-5 font-[roboto] font-[400] text-[20px] text-white text-center leading-[27px]'>
+          {items[index].subtext}
+        </p>
+      </div>
     </div>
   );
 };
