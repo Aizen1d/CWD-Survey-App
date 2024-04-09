@@ -6,6 +6,9 @@ import {
 } from "react-router-dom";
 
 import App from "./App";
+import Error404 from "./pages/Error404";
+
+import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 
 import "./index.css";
@@ -14,6 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <Error404 />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
   },
   {
     path: "/dashboard",
