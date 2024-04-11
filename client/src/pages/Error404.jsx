@@ -1,9 +1,7 @@
-import { useRouteError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Error404() {
-  const error = useRouteError();
   const navigate = useNavigate();
-  // console.log(error);
 
   return (
     <div id="error-page">
