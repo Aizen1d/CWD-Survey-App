@@ -1,5 +1,6 @@
 import express from "express";
 import { 
+  tokenVerifier,
   signin,
   signup,
   signout 
@@ -7,6 +8,7 @@ import {
 
 const router = express.Router();
 
+router.post("/verify", tokenVerifier);
 router.post("/signin", signin)
 router.post("/signup", signup);
 router.post("/signout", signout)
