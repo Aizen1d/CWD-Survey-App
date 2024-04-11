@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify'
 
 import { TextField, Checkbox } from '@mui/material'
@@ -11,23 +11,8 @@ import FadeLoop from '../components/FadeLoop'
 const Login = () => { 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [remember, setRemember] = useState(false)
   const navigate = useNavigate()
-
-  const loginMutation = useMutation({
-      mutationFn: signinUser,
-      onSuccess: (data) => {
-        navigate('/dashboard')
-      },
-      onError: (error) => {
-        toast.error(error.response?.data?.message || 'An error occurred',{
-          toastId: error.response?.data?.message
-        })
-      }
-    })
-
-  const onSignInClick = () => {
-    loginMutation.mutate({ email, password })
-  } 
 
   const items = [
     { 
@@ -45,7 +30,43 @@ const Login = () => {
       maintext: 'Simplify Your Data Journey',
       subtext: 'Effortlessly gather and analyze data with CloudWalk'
       },
-  ]; 
+  ];
+
+  const loginMutation = useMutation({
+    mutationFn: signinUser,
+    onSuccess: (data) => {
+      navigate('/dashboard')
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || 'An error occurred',{
+        toastId: error.response?.data?.message
+      })
+    }
+  })
+
+  const validateInputs = () => {
+    if (!email) {
+      toast.error('Email is required.', {
+        toastId: 'email-required'
+      })
+      return false
+    }
+    
+    if (!password) {
+      toast.error('Password is required.', {
+        toastId: 'password-required'
+      })
+      return false
+    }
+
+    return true
+  }
+
+  const onSignInClick = () => {
+    if (!validateInputs()) return
+
+    loginMutation.mutate({ email, password })
+  } 
 
   return (
     <div className="flex min-h-screen">
@@ -100,6 +121,8 @@ const Login = () => {
               <Checkbox 
                 style={{ paddingLeft: "2px"}} 
                 id='remember-checkbox'
+                checked={remember}
+                onChange={() => setRemember(!remember)}
               />
               <label htmlFor="remember-checkbox" className='mt-1 font-[roboto] font-[400] text-[17px] text-[#3E3D3D] hover:cursor-pointer select-none'>
                 Remember me
@@ -118,12 +141,14 @@ const Login = () => {
           </button>
 
           <div className="flex justify-between mt-3 w-[250px]">
-            <label className='font-[roboto] font-[400] text-[17px] text-[#616161]'>
+            <label className='mr-1 font-[roboto] font-[400] text-[17px] text-[#616161]'>
               Don't have an account?
             </label>
-            <label className='font-[roboto] font-[700] text-[17px] text-[#0062FE] hover:text-[#024dc7] hover:cursor-pointer select-none'>
-              Sign Up
-            </label>
+            <Link to='/signup'>
+              <label className='font-[roboto] font-[700] text-[17px] text-[#0062FE] hover:text-[#024dc7] hover:cursor-pointer select-none'>
+                Sign Up
+              </label>
+            </Link>
           </div>
 
           <div className="flex items-center w-full mt-4 mb-3">
