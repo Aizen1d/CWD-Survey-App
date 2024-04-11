@@ -1,36 +1,20 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 
-import App from "./App";
-import Error404 from "./pages/Error404";
-
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import { 
+  QueryClient, 
+  QueryClientProvider 
+} from '@tanstack/react-query';
 
 import "./index.css";
+import App from "./App";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <Error404 />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  }
-]);
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>
 );
