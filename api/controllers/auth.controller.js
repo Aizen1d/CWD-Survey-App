@@ -3,9 +3,32 @@ import bcrypt from "bcryptjs";
 
 import User from "../models/User.model.js";
 import generateToken from "../utils/generate.token.js";
+import { verifyToken } from "../utils/verify.token.js";
+import { sanitizeObject } from "../utils/sanitize.input.js";
+
+const tokenVerifier = asyncHandler(async (req, res) => {
+  if (req.cookies.jwt) {
+    const token = req.cookies.jwt;
+    const isVerified = verifyToken(token);
+
+    if (isVerified) {
+      res.status(200).json({
+        verified: true,
+      });
+    } 
+    else {
+      res.status(401);
+      throw new Error("Token is not valid.");
+    }
+  }
+  else {
+    res.status(401);
+    throw new Error("Token is not provided in request.");
+  }
+});
 
 const signin = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = sanitizeObject(req.body);
 
   // Validations
   if (!email) {
@@ -78,6 +101,7 @@ const signout = asyncHandler(async (req, res) => {
 });
 
 export { 
+  tokenVerifier,
   signin,
   signup,
   signout 
