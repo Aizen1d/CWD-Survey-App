@@ -1,5 +1,9 @@
 import validator from "validator";
 
+const isEmail = (value) => {
+  return validator.isEmail(value);
+}
+
 const sanitizeString = (value) => {
   let sanitizedValue;
 
@@ -29,4 +33,8 @@ const sanitizeObject = (value) => {
   }
 }
 
-export { sanitizeString, sanitizeObject };
+export { 
+  isEmail,
+  sanitizeString, 
+  sanitizeObject 
+};
