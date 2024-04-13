@@ -47,7 +47,32 @@ const signupUser = async ({ email, password }) => {
   }
 }
 
+const signoutUser = async () => {
+  try {
+    const response = await axiosApi.post(`${authPrefix}/signout`);
+
+    return response;
+  } 
+  catch (error) {
+    throw error;
+  }
+}
+
+const isEmailAvailable = async (email) => {
+  try {
+    const response = await axiosApi.get(`${authPrefix}/email/${email}`);
+
+    return response
+  } 
+  catch (error) {
+    throw error;
+  }
+}
+
 export { 
   verifyToken,
-  signinUser 
+  signinUser,
+  signupUser,
+  signoutUser,
+  isEmailAvailable 
 };
