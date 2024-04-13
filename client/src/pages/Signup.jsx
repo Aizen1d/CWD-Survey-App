@@ -265,8 +265,8 @@ const Signup = () => {
                 <CloseIcon color="error" />
               ) : null
             }}
-            error={rePassword && password !== rePassword}
-            helperText={rePassword && password !== rePassword ? 'Passwords do not match' : ''}
+            error={rePassword.length > 0 && password !== rePassword}
+            helperText={rePassword.length > 0 && password !== rePassword ? 'Passwords do not match' : ''}
           />
 
           <div className='flex justify-between mt-2 w-[350px] sm:w-[450px]'>
