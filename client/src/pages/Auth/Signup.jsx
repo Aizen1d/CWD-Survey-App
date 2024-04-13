@@ -7,12 +7,12 @@ import { TextField, Checkbox, Modal, CircularProgress } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
-import FadeLoop from '../components/FadeLoop'
-import TOS from '../components/TOS'
+import FadeLoop from '../../components/FadeLoop'
+import TOS from '../../components/TOS'
 
 import debounce from 'debounce';
-import { isEmail } from '../utils/validator'
-import { signupUser, isEmailAvailable } from '../api/Auth';
+import { isEmail } from '../../utils/validator'
+import { signupUser, isEmailAvailable } from '../../api/Auth';
 
 const Signup = () => {
   const [email, setEmail] = useState('')

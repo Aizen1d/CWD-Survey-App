@@ -4,9 +4,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify'
 
 import { TextField, Checkbox } from '@mui/material'
-import FadeLoop from '../components/FadeLoop'
+import FadeLoop from '../../components/FadeLoop.jsx'
 
-import { signinUser } from '../api/Auth.js'
+import { signinUser } from '../../api/Auth.js'
 
 const Login = () => { 
   const [email, setEmail] = useState('')
