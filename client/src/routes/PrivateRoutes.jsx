@@ -1,7 +1,25 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { verifyToken } from '../api/Auth';
 
 const PrivateRoutes = () => {
-  const isAuthenticated = !true;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuthenticated = await verifyToken();
+      setIsAuthenticated(isAuthenticated);
+      setIsLoading(false);
+    }
+
+    checkAuth();
+  }, [location]);
+
+  if (isLoading) {
+    return null;
+  }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 }
