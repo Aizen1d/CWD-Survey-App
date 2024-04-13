@@ -13,4 +13,18 @@ const getUsers = async () => {
   }
 }
 
-export { getUsers };
+const getUserByEmail = async (email) => {
+  try {
+    const response = await axiosApi.get(`${usersPrefix}/${email}`);
+
+    return response;
+  } 
+  catch (error) {
+    throw error;
+  }
+}
+
+export { 
+  getUsers,
+  getUserByEmail
+};
