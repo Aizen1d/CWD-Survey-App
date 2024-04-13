@@ -4,7 +4,11 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.model.js";
 import generateToken from "../utils/generate.token.js";
 import { verifyToken } from "../utils/verify.token.js";
-import { sanitizeObject } from "../utils/sanitize.input.js";
+import { 
+  isEmail,
+  sanitizeString, 
+  sanitizeObject 
+} from "../utils/validator.input.js";
 
 const tokenVerifier = asyncHandler(async (req, res) => {
   if (req.cookies.jwt) {
@@ -17,13 +21,15 @@ const tokenVerifier = asyncHandler(async (req, res) => {
       });
     } 
     else {
-      res.status(401);
-      throw new Error("Token is not valid.");
+      res.json({
+        verified: false,
+      });
     }
   }
   else {
-    res.status(401);
-    throw new Error("Token is not provided in request.");
+    res.json({
+      verified: false,
+    });
   }
 });
 
@@ -56,7 +62,7 @@ const signin = asyncHandler(async (req, res) => {
 });
 
 const signup = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = sanitizeObject(req.body);
 
   // Validations
   if (!email) {
@@ -94,15 +100,50 @@ const signup = asyncHandler(async (req, res) => {
 });
 
 const signout = asyncHandler(async (req, res) => {
-  res.clearCookie("jwt");
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+
   res.status(200).json({
     message: "User signed out successfully.",
   });
+});
+
+const isEmailAvailable = asyncHandler(async (req, res) => {
+  const email = sanitizeString(req.params.email);
+
+  if (!email) {
+    res.status(400);
+    throw Error("Email is required.");
+  }
+
+  if (isEmail(email) === false) {
+    res.status(400);
+    throw Error("Please enter a valid email address.");
+  }
+
+  const existing = await User.findOne({
+    email: email
+  });
+
+  if (existing) {
+    res.status(200).json({
+      available: false,
+    });
+  } 
+  else {
+    res.status(200).json({
+      available: true,
+    });
+  }
 });
 
 export { 
   tokenVerifier,
   signin,
   signup,
-  signout 
+  signout,
+  isEmailAvailable,
 }
