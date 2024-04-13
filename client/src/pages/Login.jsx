@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify'
 
 import { TextField, Checkbox } from '@mui/material'
+import FadeLoop from '../components/FadeLoop'
 
 import { signinUser } from '../api/Auth.js'
-import FadeLoop from '../components/FadeLoop'
 
 const Login = () => { 
   const [email, setEmail] = useState('')
@@ -41,7 +41,7 @@ const Login = () => {
       toast.error(error.response?.data?.message || 'An error occurred',{
         toastId: error.response?.data?.message
       })
-    }
+    },
   })
 
   const validateInputs = () => {
@@ -63,7 +63,9 @@ const Login = () => {
   }
 
   const onSignInClick = () => {
-    if (!validateInputs()) return
+    if (!validateInputs() || loginMutation.isLoading) {
+      return
+    }
 
     loginMutation.mutate({ email, password })
   } 
