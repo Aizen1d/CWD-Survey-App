@@ -8,6 +8,7 @@ import { protect } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.route("/").get(index);  
+router.route("/").get(protect, index);  
+router.route("/:email").get(protect, index);
 
 export default router;
