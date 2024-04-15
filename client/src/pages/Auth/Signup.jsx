@@ -125,6 +125,10 @@ const Signup = () => {
       return
     }
 
+    if (!allowCreate) {
+      return
+    }
+
     signupMutation.mutate({ email, password })
   }
     
@@ -297,7 +301,8 @@ const Signup = () => {
                       text-white mt-2 rounded-[10px]
                       sm:w-[445px] sm:h-[50px]"
             disabled={!allowCreate || signupMutation.isLoading}
-            onClick={onSignUpClick}>
+            onClick={onSignUpClick}
+            >
             Create Account
           </button>
 
