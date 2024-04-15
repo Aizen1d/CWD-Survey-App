@@ -213,7 +213,7 @@ const Setup = () => {
             </label>
             <div className="flex justify-center rounded-[3px] outline outline-1 outline-[#C7C7C7]">
               {signatureTabIndex === 0 &&
-                <div className="flex justify-center items-center mr-[50px]">
+                <div className="flex justify-center items-center mr-[100px]">
                   <button 
                     className="bg-white font-[outfit] font-bold text-[20px] text-gray-500 py-1 px-3 rounded" 
                     onClick={clear}>
@@ -257,7 +257,7 @@ const Setup = () => {
             </div>
             {signatureTabIndex === 0 && 
               <div className="flex h-36 outline outline-1 outline-[#C7C7C7]">
-                  <div className="w-full cursor-pointer" ref={parentCanvasRef}>
+                  <div className="w-full cursor-pointer bg-[#F8F8F8]" ref={parentCanvasRef}>
                       <SignatureCanvas 
                         ref={sigCanvas}
                         canvasProps={{ width: '100%', height: '100%' }}
@@ -266,13 +266,46 @@ const Setup = () => {
               </div>
             }
             {signatureTabIndex === 1 &&
-              <div className="flex h-10 outline outline-1 outline-[#C7C7C7]">
-                  <h1>qwe</h1>
-                
+              <div className="flex justify-center items-center h-36 bg-[#F8F8F8] outline outline-1 outline-[#C7C7C7]">
+                <label 
+                  htmlFor="file-upload" 
+                  className="font-[roboto] font-[400] text-[14px] text-[#3E3C3C] cursor-pointer">
+                  <img 
+                    className="w-[100px]"
+                    src="/icons/Setup/UploadImage.png" 
+                    alt="" 
+                  />
+                  Upload Signature
+                </label>
+                <input 
+                  className="sr-only"
+                  id="file-upload" 
+                  type="file"
+                  accept="image/*"
+                />
               </div>
-            }   
+            } 
+            <div className="flex justify-center font-[roboto] font-[400] text-[15px] text-[#616161] mt-1">
+              <label htmlFor="">
+                We will never share your information with anyone else.
+              </label>
+            </div>
+            <div className="w-full">
+              <button
+                className="w-full h-[40px] font-[roboto] font-[700] text-[17px] bg-[#0062FE] hover:bg-[#024dc7] text-white mt-2 rounded-[10px]
+                          sm:w-full sm:h-[50px]">
+                Submit
+              </button>
+              
+            </div>
+            <div className="w-full">
+              <button
+                className="w-full h-[40px] font-[roboto] font-[700] text-[17px] bg-white hover:bg-gray-100 text-black mt-3 rounded-[10px] outline outline-1 outline-black
+                          sm:w-full sm:h-[50px]">
+                Back
+              </button>
+            </div>
           </div>
-
         </div>
       </div>
 
