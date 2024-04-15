@@ -114,7 +114,7 @@ const Signup = () => {
     },
     onError: (error) => {
       console.log(error)
-      toast.error('An error occurred', {
+      toast.error(error.response?.data?.message || 'An error occurred', {
         toastId: error.response?.data?.message
       })
     }
@@ -196,6 +196,7 @@ const Signup = () => {
             label="Enter your email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') onSignUpClick(); }}
             InputProps={{
               endAdornment: emailLoading ? (
                 <CircularProgress size={20} />
@@ -229,6 +230,7 @@ const Signup = () => {
             label="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') onSignUpClick(); }}
             InputProps={{
               endAdornment: passwordAllowed === true ? (
                 <CheckIcon color="success" />
@@ -258,6 +260,7 @@ const Signup = () => {
             label="Re-enter your password"
             value={rePassword}
             onChange={(e) => setRePassword(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') onSignUpClick(); }}
             InputProps={{
               endAdornment: password === rePassword && rePassword ? (
                 <CheckIcon color="success" />

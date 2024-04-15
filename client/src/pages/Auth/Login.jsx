@@ -98,6 +98,7 @@ const Login = () => {
             label="Enter your email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') onSignInClick(); }}
           />
 
           <label htmlFor="password-field" className='self-start mt-3 mb-2 font-[roboto] font-[400] text-[17px] text-[#3E3D3D]'>
@@ -116,6 +117,7 @@ const Login = () => {
             label="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') onSignInClick(); }}
           />
 
           <div className='flex justify-between mt-2 w-[350px] sm:w-[450px]'>
@@ -136,7 +138,9 @@ const Login = () => {
             </label>
           </div>
 
-          <button disabled={loginMutation.isLoading} onClick={onSignInClick}
+          <button 
+            disabled={loginMutation.isLoading} 
+            onClick={onSignInClick} 
             className="w-[345px] h-[40px] font-[roboto] font-[700] text-[17px] bg-[#0062FE] hover:bg-[#024dc7] text-white mt-2 rounded-[10px]
                       sm:w-[445px] sm:h-[50px]">
             Log In
