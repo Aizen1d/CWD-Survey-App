@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -50,27 +50,53 @@ const Setup = () => {
   const [gender, setGender] = useState('')
   const [address, setAddress] = useState('')
 
+  // Signature Container
+  const [signatureTabIndex, setSignatureTabIndex] = useState(0)
+
+  // Signature Canvas Resources
   const sigCanvas = useRef(null);
   const parentCanvasRef = useRef();
-  const [signature, setSignature] = useState(null);
-  const [signatureTabIndex, setSignatureTabIndex] = useState(0)
+  const [signatureCanvas, setSignatureCanvas] = useState(null);
+
+  // Signature File Upload Resources
+  const [signatureFile, setSignatureFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null); // File URL for preview
+
+  const [allowSubmit, setAllowSubmit] = useState(false)
 
   const contactNumberChange = (value) => {
     setContactNumber(value)
   }
 
+  // Signature Canvas Methods
   const signatureTabIndexChange = (event, newValue) => {
     setSignatureTabIndex(newValue);
   }
 
-  const clear = () => sigCanvas.current.clear();
+  // Draw Signature Methods
+  const clear = () => {
+    sigCanvas.current.clear();
+    setSignatureCanvas(null);
+  }
 
   const save = () => {
-    if (sigCanvas) {
-      setSignature(sigCanvas.getTrimmedCanvas().toDataURL('image/png'));
-    }
+    const trimmedCanvas = sigCanvas.current.getTrimmedCanvas();
+    const url = trimmedCanvas.toDataURL('image/png');
+
+    setSignatureCanvas(url);
   };
 
+  const getSignatureCanvas = () => {
+    const trimmedCanvas = sigCanvas.current.getTrimmedCanvas();
+    const url = trimmedCanvas.toDataURL('image/png');
+
+    if (sigCanvas.current.isEmpty()) {
+      return null;
+    }
+    return url;
+  }
+
+  // This useEffect is used to resize the canvas base on the parent container
   useEffect(() => {
     if (sigCanvas.current && parentCanvasRef.current) {
       const canvas = sigCanvas.current.getCanvas();
@@ -78,12 +104,86 @@ const Setup = () => {
       canvas.height = parentCanvasRef.current.offsetHeight;
     }
   }, [sigCanvas, parentCanvasRef, signatureTabIndex]);
+  
+
+  // File Input Methods
+  const checkFileSize = (file) => {
+    const maxFileSize = 2 * 1024 * 1024;
+    const mbformat = maxFileSize / (1024 * 1024);
+
+    if (file.size > maxFileSize) {
+      toast.error(`File size exceeds ${mbformat.toFixed(2)}mb`)
+      return false;
+    }
+
+    return true;
+  }
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+  }, []);
+
+  const onDrop = useCallback((event) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+
+    if (checkFileSize(file)) {
+      toast.success('File uploaded successfully')
+      setSignatureFile(file);
+    }
+
+  }, []);
+
+  const onFileChange = (event) => {
+    const file = event.target.files[0]
+
+    if (checkFileSize(file)) {
+      toast.success('File uploaded successfully')
+      setSignatureFile(file);
+      previewFile(file);
+    }
+  }
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = () => {
+        const blob = new Blob([new Uint8Array(reader.result)], { type: file.type });
+        const url = URL.createObjectURL(blob);
+        setFileUrl(url);
+    };
+  };
+
+  const openInNewTab = () => {
+      if (fileUrl) {
+          window.open(fileUrl, '_blank');
+      }
+  };
+
+  const removeSignatureFile = () => {
+    setSignatureFile(null);
+  }
+
+  useEffect(() =>  {
+    if (firstName && lastName && birthday && contactNumber && 
+        gender && address && (signatureCanvas !== null || signatureFile)) {
+      setAllowSubmit(true);
+    }
+    else {
+      setAllowSubmit(false);
+    }
+  })
+
+  const handleSubmitClick = () => {
+    const data = getSignatureCanvas();
+    console.log(data);
+  };
 
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-1 pt-5 pb-5 bg-white justify-center items-center">
         <div className="p-5 flex flex-col justify-center items-center md:p-0 md:w-[600px]">
-          <label className="mb-2 font-[outfit] font-bold text-5xl text-black sm:text-4xl">
+          <label className="mb-2 font-[outfit] font-bold text-3xl text-black sm:text-4xl">
             Welcome to CWD Survey App
            </label>
 
@@ -197,7 +297,7 @@ const Setup = () => {
                 style={{ width: '100%'}} 
                 inputProps={{
                   style: {
-                    height: "20px",
+                    height: "22px",
                   },
                 }}
                 label="Enter your address" 
@@ -261,30 +361,53 @@ const Setup = () => {
                       <SignatureCanvas 
                         ref={sigCanvas}
                         canvasProps={{ width: '100%', height: '100%' }}
+                        onBegin={save}
                       />
                   </div>
               </div>
             }
-            {signatureTabIndex === 1 &&
+            {signatureTabIndex === 1 && (
+              signatureFile ? (
               <div className="flex justify-center items-center h-36 bg-[#F8F8F8] outline outline-1 outline-[#C7C7C7]">
-                <label 
-                  htmlFor="file-upload" 
-                  className="font-[roboto] font-[400] text-[14px] text-[#3E3C3C] cursor-pointer">
-                  <img 
-                    className="w-[100px]"
-                    src="/icons/Setup/UploadImage.png" 
-                    alt="" 
-                  />
-                  Upload Signature
-                </label>
-                <input 
-                  className="sr-only"
-                  id="file-upload" 
-                  type="file"
-                  accept="image/*"
-                />
+                <div className="flex flex-row justify-center items-center space-x-3">
+                  <span 
+                    className="font-[roboto] font-[400] text-lg text-ellipsis hover:underline hover:cursor-pointer" 
+                    onClick={openInNewTab}>
+                    {signatureFile.name}
+                  </span>
+                  <button className="rounded-md p-[2px] bg-red-500" onClick={removeSignatureFile}>
+                    <CloseIcon style={{ color: 'white' }} />
+                  </button>
+                </div>
               </div>
-            } 
+              ) : (
+              <div 
+                className="flex justify-center items-center h-36 bg-[#F8F8F8] outline outline-1 outline-[#C7C7C7]"
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+              >
+                <div className="flex flex-col justify-center items-center">
+                  <img 
+                      className="w-[60px] h-[50px]"
+                      src="/icons/Setup/UploadImage.png" 
+                      alt="" 
+                    />
+                  <label 
+                    htmlFor="file-upload" 
+                    className="font-[roboto] font-[400] text-[14px] text-[#3E3C3C] cursor-pointer hover:underline">
+                    Click or Drag to upload (2mb max)
+                  </label>
+                  <input 
+                    className="sr-only"
+                    id="file-upload" 
+                    type="file"
+                    accept="image/*"
+                    onChange={onFileChange}
+                  />
+                </div>
+              </div>
+              )
+            )} 
             <div className="flex justify-center font-[roboto] font-[400] text-[15px] text-[#616161] mt-1">
               <label htmlFor="">
                 We will never share your information with anyone else.
@@ -292,11 +415,13 @@ const Setup = () => {
             </div>
             <div className="w-full">
               <button
-                className="w-full h-[40px] font-[roboto] font-[700] text-[17px] bg-[#0062FE] hover:bg-[#024dc7] text-white mt-2 rounded-[10px]
+                onClick={handleSubmitClick}
+                disabled={!allowSubmit}
+                className="w-full h-[40px] font-[roboto] font-[700] text-[17px] bg-[#0062FE] hover:bg-[#024dc7] disabled:bg-[#e0e0e0]
+                         text-white mt-2 rounded-[10px]
                           sm:w-full sm:h-[50px]">
                 Submit
               </button>
-              
             </div>
             <div className="w-full">
               <button
