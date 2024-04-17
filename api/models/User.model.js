@@ -47,6 +47,10 @@ const userSchema = new Schema
     type: String,
     default: "",
   },
+  isSetupDone: {
+    type: Boolean,
+    default: false,
+  },
 }, 
 {
   timestamps: true,
@@ -55,6 +59,8 @@ const userSchema = new Schema
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password; // Remove password from the response
+  delete user.signature;
+
   return user;
 };
 
