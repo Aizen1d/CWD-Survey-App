@@ -113,7 +113,6 @@ const Signup = () => {
       navigate('/dashboard')
     },
     onError: (error) => {
-      console.log(error)
       toast.error(error.response?.data?.message || 'An error occurred', {
         toastId: error.response?.data?.message
       })
