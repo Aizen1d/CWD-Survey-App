@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-import bcrypt from "bcryptjs";
 
 import User from "../models/User.model.js";
 import generateToken from "../utils/generate.token.js";
@@ -80,11 +79,14 @@ const signup = asyncHandler(async (req, res) => {
     throw Error("Email is already taken.");
   }
 
-  const salt = await bcrypt.genSalt(10);
+  if (password.length < 6) {
+    res.status(400);
+    throw Error("Password must be at least 6 characters long.");
+  }
 
   const newUser = await User.create({
     email,
-    password: await bcrypt.hash(password, salt),
+    password
   });
 
   if (newUser) {
