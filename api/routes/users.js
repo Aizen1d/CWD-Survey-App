@@ -4,6 +4,7 @@ import express from "express";
 import { 
   index,
   update,
+  isCurrentUserSetupDone,
   getUserByEmail
 } from "../controllers/user.controller.js";
 
@@ -15,6 +16,7 @@ const router = express.Router();
 router.route("/").get(protect, index);  
 router.route("/").put(protect, update);
 
+router.route("/setup").get(protect, isCurrentUserSetupDone);
 router.route("/:email").get(protect, getUserByEmail);
 
 export default router;
