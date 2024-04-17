@@ -1,7 +1,11 @@
 import express from "express";
 
 // Controllers
-import { index } from "../controllers/user.controller.js";
+import { 
+  index,
+  update,
+  getUserByEmail
+} from "../controllers/user.controller.js";
 
 // Middleware
 import { protect } from "../middlewares/auth.middleware.js";
@@ -9,6 +13,8 @@ import { protect } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.route("/").get(protect, index);  
-router.route("/:email").get(protect, index);
+router.route("/").put(protect, update);
+
+router.route("/:email").get(protect, getUserByEmail);
 
 export default router;
