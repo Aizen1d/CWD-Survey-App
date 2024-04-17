@@ -2,6 +2,10 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate, Link } from 'react-router-dom';
 
+import dayjs from 'dayjs'
+import 'react-phone-input-2/lib/material.css'
+
+// Components
 import { toast } from 'react-toastify'
 import { 
   TextField, 
@@ -13,16 +17,16 @@ import {
   Tab,
   CircularProgress 
 } from '@mui/material'
+
+import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SignatureCanvas from 'react-signature-canvas';
-
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/material.css'
-
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-
 import FadeLoop from '../../components/FadeLoop'
+
+// APIs
+import { signoutUser } from '../../api/Auth';
+import { update } from '../../api/User';
 
 const Setup = () => {
   const items = [
@@ -42,6 +46,7 @@ const Setup = () => {
       subtext: 'Effortlessly gather and analyze data with CloudWalk'
       },
   ]; 
+  const navigate = useNavigate()
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -71,6 +76,7 @@ const Setup = () => {
   // Signature Canvas Methods
   const signatureTabIndexChange = (event, newValue) => {
     setSignatureTabIndex(newValue);
+    setSignatureCanvas(null);
   }
 
   // Draw Signature Methods
@@ -87,6 +93,8 @@ const Setup = () => {
   };
 
   const getSignatureCanvas = () => {
+    if (!sigCanvas.current) return null;
+
     const trimmedCanvas = sigCanvas.current.getTrimmedCanvas();
     const url = trimmedCanvas.toDataURL('image/png');
 
@@ -128,7 +136,6 @@ const Setup = () => {
     const file = event.dataTransfer.files[0];
 
     if (checkFileSize(file)) {
-      toast.success('File uploaded successfully')
       setSignatureFile(file);
     }
 
@@ -138,7 +145,6 @@ const Setup = () => {
     const file = event.target.files[0]
 
     if (checkFileSize(file)) {
-      toast.success('File uploaded successfully')
       setSignatureFile(file);
       previewFile(file);
     }
@@ -174,10 +180,79 @@ const Setup = () => {
     }
   })
 
-  const handleSubmitClick = () => {
+  const submitMutation = useMutation({
+    mutationFn: update,
+    onSuccess: (data) => {
+      navigate('/dashboard')
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || 'An error occurred', {
+        toastId: error.response?.data?.message
+      })
+    }
+  })
+    
+  const handleSubmitClick = async () => {
+    if (submitMutation.isLoading) {
+      return;
+    }
+
+    let signatureData;
     const data = getSignatureCanvas();
-    console.log(data);
+
+    if (getSignatureCanvas()) {
+      signatureData = data;
+    }
+    else if (signatureFile) {
+      signatureData = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+  
+        reader.readAsDataURL(signatureFile);
+        reader.onloadend = function() {
+          resolve(reader.result);
+        }
+        reader.onerror = reject;
+      })
+      .catch(console.error);
+    }
+    else {
+      toast.error('Please provide a signature first.')
+      return;
+    }
+
+    const form = {
+      firstName,
+      lastName,
+      birthday,
+      contactNumber,
+      gender,
+      address,
+      signature: signatureData,
+      setup: true,
+    }
+
+    submitMutation.mutate({ form })
   };
+
+  const signoutMutation = useMutation({
+    mutationFn: signoutUser,
+    onSuccess: () => {
+      navigate('/login');
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || 'An error occurred', {
+        toastId: error.response?.data?.message
+      })
+    },
+  })
+
+  const backButtonClick = () => {
+    if (signoutMutation.isLoading) {
+      return;
+    }
+
+    signoutMutation.mutate();
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -239,6 +314,7 @@ const Setup = () => {
                 label="Select your birthday (MM/DD/YYYY)"
                 value={birthday}
                 onChange={setBirthday}
+                maxDate={dayjs()}
               />
             </div>
           </div>
@@ -425,7 +501,9 @@ const Setup = () => {
             </div>
             <div className="w-full">
               <button
-                className="w-full h-[40px] font-[roboto] font-[700] text-[17px] bg-white hover:bg-gray-100 text-black mt-3 rounded-[10px] outline outline-1 outline-black
+                onClick={backButtonClick}
+                className="w-full h-[40px] font-[roboto] font-[700] text-[17px] bg-white hover:bg-gray-100 text-black mt-3 
+                          rounded-[10px] outline outline-1 outline-[#C7C7C7]
                           sm:w-full sm:h-[50px]">
                 Back
               </button>
