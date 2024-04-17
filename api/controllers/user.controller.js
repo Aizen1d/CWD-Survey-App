@@ -13,7 +13,15 @@ const index = asyncHandler(async (req, res) => {
 const update = asyncHandler(async (req, res) => {
   const user = req.user
   const { email, password, firstName, lastName, birthday, contactNumber, 
-          gender, address, signature } = sanitizeObject(req.body);
+          gender, address, signature, setup } = sanitizeObject(req.body);
+
+  if (setup) { // Check if user is setting up account for the first time
+    if (!firstName || !lastName || !birthday || !contactNumber ||
+      !gender || !address || !signature) {
+      res.status(400);
+      throw Error("Please fill up all fields.");
+    }
+  }
 
   if (user) {
     user.firstName = firstName || user.firstName
@@ -42,7 +50,7 @@ const update = asyncHandler(async (req, res) => {
         res.status(400);
         throw Error("Password must be at least 6 characters long.");
       }
-      
+
       user.password = password;
     }
 
@@ -58,6 +66,8 @@ const update = asyncHandler(async (req, res) => {
     const updatedUser = await user.save()
     
     if (updatedUser) {
+      setup ? user.isSetupDone = true : user.isSetupDone = user.isSetupDone
+
       res.status(200).json({
         message: "User updated successfully."
       });
@@ -70,6 +80,20 @@ const update = asyncHandler(async (req, res) => {
   else {
     res.status(404)
     throw new Error('User not found.')
+  }
+});
+
+const isCurrentUserSetupDone = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  if (user) {
+    res.status(200).json({
+      status: user.isSetupDone,
+    });
+  } 
+  else {
+    res.status(404);
+    throw new Error("User not found.");
   }
 });
 
@@ -93,5 +117,6 @@ const getUserByEmail = asyncHandler(async (req, res) => {
 export { 
   index,
   update,
+  isCurrentUserSetupDone,
   getUserByEmail
 };
