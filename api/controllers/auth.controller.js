@@ -49,8 +49,12 @@ const signin = asyncHandler(async (req, res) => {
 
   if (user && (await user.validatePassword(password))) {
     generateToken(res, user._id);
+
+    const navigateTo = user.isSetupDone ? "/dashboard" : "/setup";
+
     res.status(200).json({
       message: "User credentials are correct.",
+      navigateTo
     });
   } 
   else {
