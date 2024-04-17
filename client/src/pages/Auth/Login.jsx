@@ -35,7 +35,7 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationFn: signinUser,
     onSuccess: (data) => {
-      navigate('/dashboard')
+      navigate(data.data.navigateTo)
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || 'An error occurred',{
