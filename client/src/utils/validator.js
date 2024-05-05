@@ -4,4 +4,6 @@ const isEmail = (value) => {
   return validator.isEmail(value);
 }
 
-export { isEmail };
+export { 
+  isEmail,
+};
