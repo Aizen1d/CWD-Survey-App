@@ -1,6 +1,7 @@
 import Setup from '../pages/User/Setup';
 import Dashboard from '../pages/User/Dashboard';
-import Survey from '../pages/User/Survey';
+import Surveys from '../pages/User/Surveys';
+import Settings from '../pages/User/Settings';
 
 const UserRoutes = [
   {
@@ -13,8 +14,12 @@ const UserRoutes = [
   },
   {
     path: '/surveys',
-    element: <Survey />,
-  }
+    element: <Surveys />,
+  },
+  {
+    path: '/settings',
+    element: <Settings />,
+  },
 ];
 
 export default UserRoutes;
