@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal, TextField, Textarea } from "@mui/material";
+import { Modal, TextField } from "@mui/material";
 import useCreateSurveyModalStore from "../stores/CreateSurveyModalStore";
 
 const CreateSurveyModal = () => {
