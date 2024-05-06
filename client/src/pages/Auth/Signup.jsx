@@ -153,9 +153,11 @@ const Signup = () => {
     <div className="flex min-h-screen">
       <Modal 
         open={open}   
-        onClose={handleClose}>
+        onClose={handleClose}
+        onClick={handleClose}
+        >
           <div className="flex justify-center items-center min-h-screen">
-            <div className="bg-gray-100 w-[350px] h-[600px] rounded-[10px]
+            <div onClick={(e) => e.stopPropagation()} className="bg-gray-100 w-[350px] h-[600px] rounded-[10px]
                               sm:w-[400px] sm:h-[600px] 
                               md:w-[700px] md:h-[650px] 
                               lg:w-[850px] lg:h-[700px]">
