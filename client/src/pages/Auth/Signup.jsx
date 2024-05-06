@@ -154,7 +154,7 @@ const Signup = () => {
       <Modal 
         open={open}   
         onClose={handleClose}>
-          <div onClick={handleClose} className="flex justify-center items-center min-h-screen">
+          <div className="flex justify-center items-center min-h-screen">
             <div className="bg-gray-100 w-[350px] h-[600px] rounded-[10px]
                               sm:w-[400px] sm:h-[600px] 
                               md:w-[700px] md:h-[650px] 

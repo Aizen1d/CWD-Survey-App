@@ -1,25 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Sidebar from "../../components/Sidebar";
+import CreateSurveyModal from "../../components/CreateSurveyModal";
+import { TextField } from "@mui/material";
+
+import useCreateSurveyModalStore from "../../stores/CreateSurveyModalStore";
 
 const Dashboard = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const handleCreateSurveyOpen = useCreateSurveyModalStore((state) => state.open);
 
   useEffect(() => {
     toast.dismiss();
   }, [location]);
 
   return (
-    <div>
-      <div className="mx-auto bg-[#FBFDFF] flex min-h-screen">
-        <Sidebar />
+    <>
+    <div className="min-h-screen">
+      <Sidebar />
+      <CreateSurveyModal />
 
+      <div className="mx-auto bg-[#FBFDFF] flex min-h-screen">
         <div className="mx-[33px] flex-grow flex flex-col mb-6">
           <div className="mt-[40px]">
-            <button className="w-[180px] h-[46px] bg-[#0062FE] rounded-[10px] font-[roboto] font-[700] text-[20px] text-white float-right">
+            <button 
+              className="w-[180px] h-[46px] bg-[#0062FE] rounded-[10px] font-[roboto] font-[700] text-[20px] text-white float-right"
+              onClick={handleCreateSurveyOpen}>
               + Create Survey
             </button>
           </div>
@@ -122,7 +132,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

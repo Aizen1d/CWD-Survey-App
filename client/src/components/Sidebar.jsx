@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { signoutUser } from "../api/Auth";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const signoutMutation = useMutation({
     mutationFn: signoutUser,
@@ -29,7 +30,7 @@ const Sidebar = () => {
   return (
     <>
       <div className="flex flex-col justify-between float-left sticky top-0 left-0 bg-white 
-                      border-r-2 pt-[43px] w-[90px] h-[100vh] sm:w-[150px] md:w-[300px]">
+                      border-r-2 pt-[43px] w-[90px] min-h-screen sm:w-[150px] md:w-[300px]">
         <div>
           <label
             className="font-[outfit] font-bold text-[#0062FE] text-[30px] h-12 ml-[11px] md:ml-[45px]">
@@ -130,7 +131,7 @@ const Sidebar = () => {
                   Admin
                 </label>
               </div>
-              <div className="ml-auto">
+              <div className="ml-auto" onClick={() => setMenuOpen(!menuOpen)}>
                 <img
                   src="/icons/Sidebar/arrow.svg"
                   alt="arrow"
@@ -140,6 +141,7 @@ const Sidebar = () => {
             </div>
           </button>
 
+        {menuOpen && (
           <div className="relative flex">
             <div
               id="menu"
@@ -171,7 +173,7 @@ const Sidebar = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div>)}
         </div>
       </div>
     </>
