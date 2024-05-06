@@ -1,11 +1,24 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { signoutUser } from "../api/Auth";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  const [isHovered, setIsHovered] = useState({
+    dashboard: false,
+    surveys: false,
+    responses: false,
+    drafts: false,
+    trash: false,
+  });
+
+  const navigateTo = (path) => {
+    navigate(path);
+  };
 
   const signoutMutation = useMutation({
     mutationFn: signoutUser,
@@ -39,25 +52,35 @@ const Sidebar = () => {
 
           <div className="items-center flex flex-col mt-[50px] space-y-3">
             <button
-              className="flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+                          ${location.pathname === "/dashboard" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
-                          md:w-[280px]">
+                          md:w-[280px]`}
+              onClick={() => navigateTo("/dashboard")}
+              onMouseEnter={() => setIsHovered({ ...isHovered, dashboard: true })}
+              onMouseLeave={() => setIsHovered({ ...isHovered, dashboard: false })}
+            >
               <img
-                src="/icons/Sidebar/dashboard.svg"
+                src={location.pathname === "/dashboard" || isHovered.dashboard ? "/icons/Sidebar/active-dashboard.svg" : "/icons/Sidebar/dashboard.svg"}
                 alt="dashboard"
-                className="w-[33px] h-[24px] ml-[18px] mr-4 md:ml-[37px]">
-              </img>
+                className="w-[33px] h-[24px] ml-[18px] mr-4 md:ml-[37px]"
+              ></img>
               <span className="md:inline hidden">Dashboard</span>
             </button>
 
             <button
-              className="flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/surveys" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
-                          md:w-[280px]">
+                          md:w-[280px]`}
+              onClick={() => navigateTo("/surveys")}
+              onMouseEnter={() => setIsHovered({ ...isHovered, surveys: true })}
+              onMouseLeave={() => setIsHovered({ ...isHovered, surveys: false })}
+              >
               <img
-                src="/icons/Sidebar/surveys.svg"
+                src={location.pathname === "/surveys" || isHovered.surveys ? "/icons/Sidebar/active-surveys.svg" : "/icons/Sidebar/surveys.svg"}
                 alt="dashboard"
                 className="w-[33px] h-[24px] ml-[18px] mr-4 md:ml-[37px]">
               </img>
@@ -152,15 +175,15 @@ const Sidebar = () => {
               tabindex="-1"
             >
               <div className="py-1" role="none">
-                <a
-                  href="#"
+                <button
                   className="flex items-center w-[284px] h-10 px-[30px] font-[roboto] font-[400] text-[#858689] text-[20px] hover:font-[600] hover:text-[#0062FE] hover:bg-[#E5EFFF]"
                   role="menuitem"
                   tabindex="-1"
                   id="menu-item-0"
+                  onClick={() => navigateTo("/settings")}
                 >
                   Settings
-                </a>
+                </button>
                 <button
                   type="submit"
                   className="w-[284px] h-10 px-[30px] text-left font-[roboto] font-[400] text-[#858689] text-[20px] block hover:font-[600] hover:text-[#0062FE] hover:bg-[#E5EFFF]"
