@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 import Sidebar from "../../components/Sidebar";
 import CreateSurveyModal from "../../components/CreateSurveyModal";
+import CreateSurveyButton from "../../components/CreateSurveyButton";
 import { TextField } from "@mui/material";
 
 import useCreateSurveyModalStore from "../../stores/CreateSurveyModalStore";
@@ -27,11 +28,9 @@ const Dashboard = () => {
       <div className="mx-auto bg-[#FBFDFF] flex min-h-screen">
         <div className="mx-[33px] flex-grow flex flex-col mb-6">
           <div className="mt-[40px]">
-            <button 
-              className="w-[180px] h-[46px] bg-[#0062FE] rounded-[10px] font-[roboto] font-[700] text-[20px] text-white float-right"
-              onClick={handleCreateSurveyOpen}>
-              + Create Survey
-            </button>
+            <CreateSurveyButton 
+              onButtonClick={handleCreateSurveyOpen}
+            />
           </div>
 
           <label className="font-[outfit] font-[700] text-[50px] text-[#3E3C3C] mt-[25px]">
