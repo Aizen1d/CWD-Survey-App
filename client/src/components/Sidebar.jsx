@@ -7,7 +7,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   const [isHovered, setIsHovered] = useState({
     dashboard: false,
     surveys: false,
@@ -78,7 +78,7 @@ const Sidebar = () => {
               onClick={() => navigateTo("/surveys")}
               onMouseEnter={() => setIsHovered({ ...isHovered, surveys: true })}
               onMouseLeave={() => setIsHovered({ ...isHovered, surveys: false })}
-              >
+            >
               <img
                 src={location.pathname === "/surveys" || isHovered.surveys ? "/icons/Sidebar/active-surveys.svg" : "/icons/Sidebar/surveys.svg"}
                 alt="dashboard"
@@ -88,12 +88,17 @@ const Sidebar = () => {
             </button>
 
             <button
-              className="flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/responses" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
-                          md:w-[280px]">
+                          md:w-[280px]`}
+              onClick={() => navigateTo("/responses")}
+              onMouseEnter={() => setIsHovered({ ...isHovered, responses: true })}
+              onMouseLeave={() => setIsHovered({ ...isHovered, responses: false })}
+            >
               <img
-                src="/icons/Sidebar/responses.svg"
+                src={location.pathname === "/responses" || isHovered.responses ? "/icons/Sidebar/active-responses.svg" : "/icons/Sidebar/responses.svg"}
                 alt="dashboard"
                 className="w-[33px] h-[24px] ml-[18px] mr-4 md:ml-[37px]">
               </img>
@@ -101,13 +106,17 @@ const Sidebar = () => {
             </button>
 
             <button
-              className="flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/drafts" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
-                          md:w-[280px]"
+                          md:w-[280px]`}
+              onClick={() => navigateTo("/drafts")}
+              onMouseEnter={() => setIsHovered({ ...isHovered, drafts: true })}
+              onMouseLeave={() => setIsHovered({ ...isHovered, drafts: false })}
             >
               <img
-                src="/icons/Sidebar/draft.svg"
+                src={location.pathname === "/drafts" || isHovered.drafts ? "/icons/Sidebar/active-drafts.svg" : "/icons/Sidebar/drafts.svg"}
                 alt="dashboard"
                 className="w-[33px] h-[24px] ml-[18px] mr-4
                                                           md:ml-[37px]"
@@ -116,13 +125,17 @@ const Sidebar = () => {
             </button>
 
             <button
-              className="flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/trash" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
-                          md:w-[280px]"
+                          md:w-[280px]`}
+              onClick={() => navigateTo("/trash")}
+              onMouseEnter={() => setIsHovered({ ...isHovered, trash: true })}
+              onMouseLeave={() => setIsHovered({ ...isHovered, trash: false })}
             >
               <img
-                src="/icons/Sidebar/trash.svg"
+                src={location.pathname === "/trash" || isHovered.trash ? "/icons/Sidebar/active-trash.svg" : "/icons/Sidebar/trash.svg"}
                 alt="dashboard"
                 className="w-[33px] h-[24px] ml-[18px] mr-4
                                                           md:ml-[37px]"
@@ -164,39 +177,39 @@ const Sidebar = () => {
             </div>
           </button>
 
-        {menuOpen && (
-          <div className="relative flex">
-            <div
-              id="menu"
-              className="items-center flex absolute transform -translate-x-[282px] bottom-full z-10 w-[285px] h-[100px] origin-bottom-right rounded-md bg-white border-[1px] border-#C2BEBE focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="menu-button"
-              tabindex="-1"
-            >
-              <div className="py-1" role="none">
-                <button
-                  className="flex items-center w-[284px] h-10 px-[30px] font-[roboto] font-[400] text-[#858689] text-[20px] hover:font-[600] hover:text-[#0062FE] hover:bg-[#E5EFFF]"
-                  role="menuitem"
-                  tabindex="-1"
-                  id="menu-item-0"
-                  onClick={() => navigateTo("/settings")}
-                >
-                  Settings
-                </button>
-                <button
-                  type="submit"
-                  className="w-[284px] h-10 px-[30px] text-left font-[roboto] font-[400] text-[#858689] text-[20px] block hover:font-[600] hover:text-[#0062FE] hover:bg-[#E5EFFF]"
-                  role="menuitem"
-                  tabindex="-1"
-                  id="menu-item-3"
-                  onClick={signOutClick}
-                >
-                  Log out
-                </button>
+          {menuOpen && (
+            <div className="relative flex">
+              <div
+                id="menu"
+                className="items-center flex absolute transform -translate-x-[282px] bottom-full z-10 w-[285px] h-[100px] origin-bottom-right rounded-md bg-white border-[1px] border-#C2BEBE focus:outline-none"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="menu-button"
+                tabindex="-1"
+              >
+                <div className="py-1" role="none">
+                  <button
+                    className="flex items-center w-[284px] h-10 px-[30px] font-[roboto] font-[400] text-[#858689] text-[20px] hover:font-[600] hover:text-[#0062FE] hover:bg-[#E5EFFF]"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menu-item-0"
+                    onClick={() => navigateTo("/settings")}
+                  >
+                    Settings
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-[284px] h-10 px-[30px] text-left font-[roboto] font-[400] text-[#858689] text-[20px] block hover:font-[600] hover:text-[#0062FE] hover:bg-[#E5EFFF]"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menu-item-3"
+                    onClick={signOutClick}
+                  >
+                    Log out
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>)}
+            </div>)}
         </div>
       </div>
     </>
