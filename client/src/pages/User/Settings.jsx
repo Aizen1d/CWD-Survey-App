@@ -3,8 +3,13 @@ import { useMutation } from "@tanstack/react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import dayjs from 'dayjs'
+import 'react-phone-input-2/lib/material.css'
+
 import Sidebar from "../../components/Sidebar";
 import { TextField } from "@mui/material";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import PhoneInput from 'react-phone-input-2'
 
 import useCreateSurveyModalStore from "../../stores/CreateSurveyModalStore";
 
@@ -59,6 +64,47 @@ const Settings = () => {
 
             <div className="flex flex-col mt-4">
               <label className="font-[outfit] font-[500] text-[30px] text-[#3E3C3C] mb-2">
+                Edit Profile
+              </label>
+
+              <div className="flex flex-col space-y-2">
+                <label className="font-[roboto] font-[400] text-[20px] text-[#3E3D3D]">
+                  Name
+                </label>
+                <input type="text" className="h-[59px] w-full bg-white rounded-[10px] outline outline-1 outline-[#565555] px-5 font-[roboto] text-[20px]" placeholder="John Doe" />
+
+                <div className="grid grid-row-2 grid-cols-2 gap-6 gap-y-2">
+                  <div className="space-y-2">
+                    <label className="font-[roboto] font-[400] text-[20px] text-[#3E3D3D]">
+                      Birthday
+                    </label>
+                    <input type="text" className="h-[59px] w-full bg-white rounded-[10px] outline outline-1 outline-[#565555] px-5 font-[roboto] text-[20px]" placeholder="August 31, 2001" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="font-[roboto] font-[400] text-[20px] text-[#3E3D3D]">
+                      Number
+                    </label>
+                    <input type="text" className="h-[59px] w-full bg-white rounded-[10px] outline outline-1 outline-[#565555] px-5 font-[roboto] text-[20px]" placeholder="09337864501" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="font-[roboto] font-[400] text-[20px] text-[#3E3D3D]">
+                      Gender
+                    </label>
+                    <input type="text" className="h-[59px] w-full bg-white rounded-[10px] outline outline-1 outline-[#565555] px-5 font-[roboto] text-[20px]" placeholder="Male" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="font-[roboto] font-[400] text-[20px] text-[#3E3D3D]">
+                      Address
+                    </label>
+                    <input type="text" className="h-[59px] w-full bg-white rounded-[10px] outline outline-1 outline-[#565555] px-5 font-[roboto] text-[20px]" placeholder="Quezon City, Metro Manila" />
+                  </div>
+                </div>
+              </div>
+
+              <label className="font-[outfit] font-[500] text-[30px] text-[#3E3C3C] mb-2 mt-2">
                 Change Password
               </label>
 
