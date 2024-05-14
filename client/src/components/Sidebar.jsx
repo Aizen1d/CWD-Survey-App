@@ -52,8 +52,8 @@ const Sidebar = () => {
 
           <div className="items-center flex flex-col mt-[50px] space-y-3">
             <button
-              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
-                          ${location.pathname === "/dashboard" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
+              className={`flex font-[roboto] font-[400] text-[20px] h-[50px] w-[70px] items-center
+                          ${location.pathname === "/dashboard" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : "text-[#3E3D3D]"}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
                           md:w-[280px]`}
@@ -70,8 +70,8 @@ const Sidebar = () => {
             </button>
 
             <button
-              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
-                        ${location.pathname === "/surveys" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
+              className={`flex font-[roboto] font-[400] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/surveys" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : "text-[#3E3D3D]"}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
                           md:w-[280px]`}
@@ -88,8 +88,8 @@ const Sidebar = () => {
             </button>
 
             <button
-              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
-                        ${location.pathname === "/responses" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
+              className={`flex font-[roboto] font-[400] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/responses" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : "text-[#3E3D3D]"}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
                           md:w-[280px]`}
@@ -106,8 +106,8 @@ const Sidebar = () => {
             </button>
 
             <button
-              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
-                        ${location.pathname === "/drafts" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
+              className={`flex font-[roboto] font-[400] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/drafts" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : "text-[#3E3D3D]"}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
                           md:w-[280px]`}
@@ -125,8 +125,8 @@ const Sidebar = () => {
             </button>
 
             <button
-              className={`flex font-[roboto] font-[400] text-[#3E3D3D] text-[20px] h-[50px] w-[70px] items-center
-                        ${location.pathname === "/trash" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : ""}
+              className={`flex font-[roboto] font-[400] text-[20px] h-[50px] w-[70px] items-center
+                        ${location.pathname === "/trash" ? "bg-[#F0F9FF] text-[#1473E0] font-[700]" : "text-[#3E3D3D]"}
                           hover:bg-[#F0F9FF] hover:rounded hover:text-[#1473E0] hover:font-[700] 
                           focus:bg-[#F0F9FF] focus:rounded focus:text-[#1473E0] focus:font-[700]
                           md:w-[280px]`}
