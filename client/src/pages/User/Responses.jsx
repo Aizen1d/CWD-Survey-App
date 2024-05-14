@@ -6,13 +6,24 @@ import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
 import CreateSurveyModal from "../../components/CreateSurveyModal";
 import CreateSurveyButton from "../../components/CreateSurveyButton";
-import { TextField } from "@mui/material";
+import { TextField, Menu, MenuItem } from "@mui/material";
 
 import useCreateSurveyModalStore from "../../stores/CreateSurveyModalStore";
 
 const Responses = () => {
   const location = useLocation();
   const handleCreateSurveyOpen = useCreateSurveyModalStore((state) => state.open);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     toast.dismiss();
@@ -49,9 +60,43 @@ const Responses = () => {
                 </div>
 
                 <div className="relative inline-block text-left z-50">
-                  <button className="font-[roboto] font-[700] text-[30px] mr-8 flex items-center justify-center mb-2 dropdown-button">
+                  <button
+                    onClick={handleClick}
+                    id="basic-button"
+                    className="font-[roboto] font-[700] text-[30px] mr-8 flex items-center justify-center mb-2 dropdown-button">
                     ...
                   </button>
+                  <Menu
+                    id="dropdown-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                      className: "absolute right-0 mt-1 w-56 rounded-[10px] bg-white border-[1px] border-#C2BEBE focus:outline-none"
+                    }}
+                  >
+                    <MenuItem
+                      onClick={handleClose}
+                      className="font-[roboto] font-[400] text-[20px] hover:font-[600] hover:text-[#0062FE]"
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#E5EFFF'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = ''}
+                      
+                    >
+                      View
+                    </MenuItem>
+ 
+                    <MenuItem
+                      onClick={handleClose}
+                      className="font-[roboto] font-[400] text-[20px] hover:font-[600] hover:text-[#0062FE]"
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#E5EFFF'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = ''}
+                    >
+                      Delete
+                    </MenuItem>
+                  </Menu>
+
+
                   <div className="absolute right-0 mt-1 w-56 rounded-md bg-white border-[1px] border-#C2BEBE focus:outline-none hidden dropdown-menu">
                     <div className="py-3" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                       <a href="#" className="block px-4 py-2 font-[roboto] font-[400] text-[20px] text-[#565555] hover:bg-[#E5EFFF] hover:font-[600] hover:text-[#0062FE]" role="menuitem">View</a>
