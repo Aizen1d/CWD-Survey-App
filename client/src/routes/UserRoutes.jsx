@@ -5,6 +5,7 @@ import Surveys from '../pages/User/Surveys';
 import SurveysCreate from '../pages/User/SurveysCreate';
 import SurveysView from '../pages/User/SurveysView';
 import SurveysCustomize from '../pages/User/SurveysCustomize';
+import SurveysGenerate from '../pages/User/SurveysGenerate';
 
 import Settings from '../pages/User/Settings';
 
@@ -38,6 +39,10 @@ const UserRoutes = [
   {
     path: '/surveys/customize',
     element: <SurveysCustomize />,
+  },
+  {
+    path: '/surveys/generate',
+    element: <SurveysGenerate />,
   },
   {
     path: '/settings',

@@ -94,6 +94,12 @@ const SurveysCreate = () => {
                       <button className="mb-[12px] font-[outfit] font-[700] text-[30px] text-[#3E3C3C]">
                         ...
                       </button>
+                      <div className="absolute right-0 mt-1 w-56 rounded-md bg-white border-[1px] border-#C2BEBE focus:outline-none hidden dropdown-menu">
+                        <div className="py-3" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                          <a href="#" className="block px-4 py-2 font-[roboto] font-[400] text-[20px] text-[#565555] hover:bg-[#E5EFFF] hover:font-[600] hover:text-[#0062FE]" role="menuitem">Duplicate</a>
+                          <a href="#" className="block px-4 py-2 font-[roboto] font-[400] text-[20px] text-[#565555] hover:bg-[#E5EFFF] hover:font-[600] hover:text-[#0062FE]" role="menuitem">Delete</a>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex flex-col space-y-2">
                       <label className="font-[roboto] font-[400] text-[20px] text-[#616161]">

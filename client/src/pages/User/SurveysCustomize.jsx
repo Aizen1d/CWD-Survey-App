@@ -75,9 +75,6 @@ const SurveysCustomize = () => {
                     <label className="font-[outfit] font-[600] text-[23px] text-[#3E3C3C]">
                       Customize Theme
                     </label>
-                    <button className="mb-[12px] font-[outfit] font-[700] text-[30px] text-[#3E3C3C]">
-                      ...
-                    </button>
                   </div>
                   <div className="flex flex-col space-y-2 w-full">
                     <div className="flex flex-col space-y-2">
@@ -165,99 +162,15 @@ const SurveysCustomize = () => {
             </div>
 
             <div className="flex flex-col w-[45%] overflow-y-auto py-6">
-              <div className="flex flex-shrink-0 h-[100px] w-full bg-[#0062FE] items-center justify-center relative px-6 mb-6">
-                <button className="absolute left-[80px]">
-                  <img src="/icons/Survey/insert-logo.svg" />
-                </button>
-
-                <div className="flex flex-col items-center justify-center">
-                  <label className="font-[roboto] font-[700] text-[30px] text-white mb-[-7px]">
-                    Survey Name
+              <div className="flex flex-col bg-white border-[1px] border-[#C7C7C7] rounded-[10px] mx-6 py-5 px-7 space-y-5 h-full">
+                <div className="flex flex-col space-y-2 items-center">
+                  <label className="font-[outfit] font-[600] text-[25px] text-[#3E3C3C] mb-2">
+                    Thank You
                   </label>
-
-                  <label className="font-[roboto] font-[300] text-[20px] text-white">
-                    Survey Description
+                  <label className="font-[roboto] font-[400] text-[20px] text-[#3E3C3C] text-justify">
+                    We appreciate your time and effort in answering our survey. Your answers are being recorded.
                   </label>
-                </div>
-              </div>
-
-              <div className="flex flex-col bg-white border-[1px] border-[#C7C7C7] rounded-[10px] mx-6 py-5 px-7 mb-6 space-y-5">
-                <div className="flex flex-col space-y-2">
-                  <label className="font-[outfit] font-[600] text-[23px] text-[#3E3C3C] mb-2">
-                    Questions
-                  </label>
-
-                  <label className="font-[roboto] font-[400] text-[20px] text-[#616161]">
-                    1. What is the capital of France?
-                  </label>
-                  <textarea
-                    type="text"
-                    className="h-[109px] w-full py-5 bg-white rounded-[10px] outline outline-[0.5px] outline-[#565555] px-5 font-[roboto] text-[20px] resize-none"
-                    placeholder="Type your answer here"
-                    readonly
-                  ></textarea>
-                </div>
-
-                <div className="flex flex-col space-y-2">
-                  <label className="font-[roboto] font-[400] text-[20px] text-[#616161]">
-                    2. Is the Earth flat?
-                  </label>
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center">
-                      <input type="radio" className="w-5 h-7" disabled />
-                      <label className="font-[roboto] font-[400] text-[20px] text-[#616161] ml-2">
-                        True
-                      </label>
-                    </div>
-                    <div className="flex">
-                      <input type="radio" className="w-5 h-7" disabled />
-                      <label className="font-[roboto] font-[400] text-[20px] text-[#616161] ml-2">
-                        False
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col space-y-2">
-                  <label className="font-[roboto] font-[400] text-[20px] text-[#616161]">
-                    3. Which of these are musical instruments?
-                  </label>
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center">
-                      <input type="checkbox" className="w-5 h-7" disabled />
-                      <label className="font-[roboto] font-[400] text-[20px] text-[#616161] ml-2">
-                        Guitar
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input type="checkbox" className="w-5 h-7" disabled />
-                      <label className="font-[roboto] font-[400] text-[20px] text-[#616161] ml-2">
-                        Bicycle
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input type="checkbox" className="w-5 h-7" disabled />
-                      <label className="font-[roboto] font-[400] text-[20px] text-[#616161] ml-2">
-                        Drum
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col pt-5 space-y-3">
-                  <button
-                    className="font-[roboto] font-[500] text-[20px] text-white h-[46px] bg-[#0062FE] w-[135px] rounded-[10px]"
-                    disabled
-                  >
-                    Submit
-                  </button>
-                  <div className="flex">
-                    <input type="checkbox" className="w-5 h-7" disabled />
-                    <label className="font-[roboto] font-[400] text-[20px] text-[#616161] ml-2">
-                      Send me a copy of my responses
-                    </label>
-                  </div>
-                </div>
+                </div>  
               </div>
             </div>
           </div>
